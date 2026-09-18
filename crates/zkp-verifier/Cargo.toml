@@ -3,7 +3,11 @@ name = "zkp-verifier"
 version = "0.1.0"
 edition = "2021"
 license = "Apache-2.0"
-description = "zkp-verifier — ATC ZKP-Stack (R1-MVP, AD-045)"
+description = "ATC ZKP verification and circuit registry"
 
 [dependencies]
 zkp-core = { path = "../zkp-core" }
+zkp-crypto = { path = "../zkp-crypto" }
+ark-bn254 = "0.6"
+ark-groth16 = "0.6"
+ark-serialize = "0.6"
