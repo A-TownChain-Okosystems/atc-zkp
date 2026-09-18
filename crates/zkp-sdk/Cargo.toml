@@ -8,3 +8,6 @@ description = "ATC ZKP SDK"
 [dependencies]
 zkp-core = { path = "../zkp-core" }
 zkp-prover = { path = "../zkp-prover" }
+ark-bn254 = "0.6"
+ark-groth16 = "0.6"
+ark-std = "0.6"
