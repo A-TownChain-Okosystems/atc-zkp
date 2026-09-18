@@ -6,3 +6,4 @@ license = "Apache-2.0"
 description = "zkp-verifier — ATC ZKP-Stack (R1-MVP, AD-045)"
 
 [dependencies]
+zkp-core = { path = "../zkp-core" }
