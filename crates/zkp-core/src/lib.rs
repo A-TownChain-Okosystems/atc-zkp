@@ -1,9 +1,8 @@
 // Copyright (c) 2026 Michael Wroblewski — Apache-2.0
 //! Canonical, deterministic ZKP core types and bounded proof envelope.
 //!
-//! This crate deliberately does not claim a cryptographic proof system.
-//! Concrete Groth16/PLONK/Halo2/STARK backends must implement the trait below
-//! and pass independent cryptographic review before production use.
+//! Concrete proof-system backends must implement the trait below and pass
+//! independent cryptographic review before production use.
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct CircuitStats {
@@ -66,7 +65,6 @@ impl ProofEnvelope {
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
-#[derive(Debug, Clone, PartialEq, Eq)]
 pub struct CircuitDescriptor {
     pub circuit_id: u32,
     pub version: u32,
@@ -82,6 +80,7 @@ impl CircuitDescriptor {
     }
 }
 
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub enum ProofError {
     InvalidProofSize,
     InvalidPublicInputSize,
