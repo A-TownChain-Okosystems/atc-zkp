@@ -6,6 +6,7 @@
 //! waste or a production proving key.
 
 use ark_bn254::{Bn254, Fr};
+pub use ark_bn254::Bn254;
 use ark_groth16::{prepare_verifying_key, Groth16, Proof, ProvingKey, VerifyingKey};
 use ark_r1cs_std::fields::fp::FpVar;
 use ark_r1cs_std::alloc::AllocVar;
