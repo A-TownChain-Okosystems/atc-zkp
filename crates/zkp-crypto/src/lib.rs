@@ -1,23 +1,48 @@
 // Copyright (c) 2026 Michael Wroblewski — Apache-2.0
-//! Prime-Feld-Arithmetik (MVP; keine finale Kurven-/Feldwahl — ATC-CRYPTO-001 offen).
+//! Canonical hashing primitives for the ZKP boundary.
+//!
+//! This crate intentionally exposes hashing only; it does not implement
+//! elliptic-curve arithmetic or a proof system.
 
-pub const FIELD_MODULUS: u64 = 0x3ffffffe40000001;
+use sha2::{Digest, Sha256};
 
-pub fn field_add(a: u64, b: u64) -> u64 {
-    (a % FIELD_MODULUS + b % FIELD_MODULUS) % FIELD_MODULUS
+pub const MAX_HASH_INPUT_BYTES: usize = 1 << 20;
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum HashError {
+    InputTooLarge,
 }
 
-pub fn field_mul(a: u64, b: u64) -> u64 {
-    ((a as u128 * b as u128) % FIELD_MODULUS as u128) as u64
+pub fn sha256(input: &[u8]) -> Result<[u8; 32], HashError> {
+    if input.len() > MAX_HASH_INPUT_BYTES {
+        return Err(HashError::InputTooLarge);
+    }
+    let digest = Sha256::digest(input);
+    Ok(digest.into())
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
+
     #[test]
-    fn feld_arithmetik() {
-        assert_eq!(field_add(FIELD_MODULUS - 1, 2), 1);
-        assert_eq!(field_mul(0, 12345), 0);
-        assert_eq!(field_add(2, 3) + field_add(4, 5), field_add(field_add(2, 3), field_add(4, 5)));
+    fn sha256_known_vector() {
+        assert_eq!(
+            sha256(b"abc").unwrap(),
+            [
+                0xba, 0x78, 0x16, 0xbf, 0x8f, 0x01, 0xcf, 0xea,
+                0x41, 0x41, 0x40, 0xde, 0x5d, 0xae, 0x22, 0x23,
+                0xb0, 0x03, 0x61, 0xa3, 0x96, 0x17, 0x7a, 0x9c,
+                0xb4, 0x10, 0xff, 0x61, 0xf2, 0x00, 0x15, 0xad
+            ]
+        );
+    }
+
+    #[test]
+    fn hash_rejects_oversized_input() {
+        assert_eq!(
+            sha256(&vec![0u8; MAX_HASH_INPUT_BYTES + 1]),
+            Err(HashError::InputTooLarge)
+        );
     }
 }
