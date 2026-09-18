@@ -11,3 +11,7 @@ zkp-crypto = { path = "../zkp-crypto" }
 ark-bn254 = "0.6"
 ark-groth16 = "0.6"
 ark-serialize = "0.6"
+
+[dev-dependencies]
+zkp-prover = { path = "../zkp-prover" }
+ark-std = "0.6"
