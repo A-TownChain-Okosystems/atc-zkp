@@ -3,7 +3,7 @@
 
 use ark_bn254::Bn254;
 use ark_groth16::{prepare_verifying_key, Groth16, Proof, VerifyingKey};
-use ark_serialize::CanonicalSerialize;
+use ark_serialize::{CanonicalDeserialize, CanonicalSerialize};
 use zkp_core::{CircuitDescriptor, ProofEnvelope, ProofError, ProofSystem};
 use zkp_crypto::sha256;
 
@@ -52,6 +52,14 @@ pub fn verify_groth16(
         return Err(ProofError::VerifyingKeyMismatch);
     }
 
+    let mut expected_public = Vec::new();
+    public_input
+        .serialize_compressed(&mut expected_public)
+        .map_err(|_| ProofError::VerificationFailed)?;
+    if envelope.public_inputs != expected_public {
+        return Err(ProofError::VerificationFailed);
+    }
+
     let proof = Proof::<Bn254>::deserialize_compressed(envelope.proof.as_slice())
         .map_err(|_| ProofError::VerificationFailed)?;
     let pvk = prepare_verifying_key(vk);
@@ -82,7 +90,9 @@ pub fn verify_format(system_id: u8, proof_len: usize) -> bool {
             circuit_id: 1,
             proof: vec![0; proof_len],
             public_inputs: Vec::new(),
-        }.validate().is_ok(),
+        }
+        .validate()
+        .is_ok(),
         None => false,
     }
 }
@@ -98,8 +108,16 @@ mod tests {
         let mut rng = test_rng();
         let (pk, vk) = setup(&mut rng).expect("setup");
         let circuit = register_equality_square(&vk).expect("registry");
-        let envelope = prove_square(&pk, ark_bn254::Fr::from(7u64), ark_bn254::Fr::from(49u64), &mut rng).expect("proof");
-        assert!(verify_groth16(&circuit, &vk, &envelope, ark_bn254::Fr::from(49u64)).expect("verify"));
+        let envelope =
+            prove_square(&pk, ark_bn254::Fr::from(7u64), ark_bn254::Fr::from(49u64), &mut rng)
+                .expect("proof");
+        assert!(verify_groth16(
+            &circuit,
+            &vk,
+            &envelope,
+            ark_bn254::Fr::from(49u64)
+        )
+        .expect("verify"));
     }
 
     #[test]
@@ -114,7 +132,34 @@ mod tests {
             proof: vec![1; 64],
             public_inputs: Vec::new(),
         };
-        assert_eq!(verify_groth16(&circuit, &vk_b, &envelope, ark_bn254::Fr::from(49u64)),
-            Err(ProofError::VerifyingKeyMismatch));
+        assert_eq!(
+            verify_groth16(
+                &circuit,
+                &vk_b,
+                &envelope,
+                ark_bn254::Fr::from(49u64)
+            ),
+            Err(ProofError::VerifyingKeyMismatch)
+        );
+    }
+
+    #[test]
+    fn registry_rejects_public_input_mismatch() {
+        let mut rng = test_rng();
+        let (pk, vk) = setup(&mut rng).expect("setup");
+        let circuit = register_equality_square(&vk).expect("registry");
+        let envelope =
+            prove_square(&pk, ark_bn254::Fr::from(7u64), ark_bn254::Fr::from(49u64), &mut rng)
+                .expect("proof");
+
+        assert_eq!(
+            verify_groth16(
+                &circuit,
+                &vk,
+                &envelope,
+                ark_bn254::Fr::from(48u64)
+            ),
+            Err(ProofError::VerificationFailed)
+        );
     }
 }
