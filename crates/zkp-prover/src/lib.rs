@@ -5,13 +5,13 @@
 //! and distributed as audited artifacts; this module does not embed toxic
 //! waste or a production proving key.
 
-use ark_bn254::{Bn254, Fr};
+use ark_bn254::Fr;
 pub use ark_bn254::Bn254;
 use ark_groth16::{prepare_verifying_key, Groth16, Proof, ProvingKey, VerifyingKey};
 use ark_r1cs_std::alloc::AllocVar;
 use ark_r1cs_std::fields::fp::FpVar;
 use ark_relations::r1cs::{ConstraintSynthesizer, ConstraintSystemRef, SynthesisError};
-use ark_serialize::CanonicalSerialize;
+use ark_serialize::{CanonicalDeserialize, CanonicalSerialize};
 use ark_std::rand::{CryptoRng, RngCore};
 use zkp_core::{ProofEnvelope, ProofError, ProofSystem};
 
@@ -100,7 +100,6 @@ pub fn verify_square(
 #[cfg(test)]
 mod tests {
     use super::*;
-    use ark_serialize::CanonicalDeserialize;
     use ark_std::test_rng;
 
     #[test]
