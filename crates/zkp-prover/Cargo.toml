@@ -3,6 +3,11 @@ name = "zkp-prover"
 version = "0.1.0"
 edition = "2021"
 license = "Apache-2.0"
-description = "zkp-prover — ATC ZKP-Stack (R1-MVP, AD-045)"
+description = "ATC Groth16 proving boundary"
 
 [dependencies]
+zkp-core = { path = "../zkp-core" }
+ark-groth16 = "0.6"
+ark-bn254 = "0.6"
+ark-relations = "0.6"
+ark-std = "0.6"
