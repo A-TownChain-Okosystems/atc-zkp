@@ -3,6 +3,7 @@ name = "zkp-crypto"
 version = "0.1.0"
 edition = "2021"
 license = "Apache-2.0"
-description = "zkp-crypto — ATC ZKP-Stack (R1-MVP, AD-045)"
+description = "zkp-crypto — bounded cryptographic primitives for the ATC ZKP boundary"
 
 [dependencies]
+sha2 = "0.10"
