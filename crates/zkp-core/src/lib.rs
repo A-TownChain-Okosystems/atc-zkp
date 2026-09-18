@@ -66,11 +66,30 @@ impl ProofEnvelope {
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct CircuitDescriptor {
+    pub circuit_id: u32,
+    pub version: u32,
+    pub verifying_key_hash: [u8; 32],
+}
+
+impl CircuitDescriptor {
+    pub fn validate(&self) -> Result<(), ProofError> {
+        if self.circuit_id == 0 || self.version == 0 || self.verifying_key_hash == [0; 32] {
+            return Err(ProofError::InvalidCircuitDescriptor);
+        }
+        Ok(())
+    }
+}
+
 pub enum ProofError {
     InvalidProofSize,
     InvalidPublicInputSize,
     UnsupportedSystem,
     VerificationFailed,
+    InvalidCircuitDescriptor,
+    CircuitNotRegistered,
+    VerifyingKeyMismatch,
 }
 
 pub trait ProofVerifier {
