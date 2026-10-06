@@ -101,9 +101,24 @@ mod tests {
 
     #[test]
     fn stats_validation() {
-        assert!(CircuitStats { gates: 1, public_inputs: 1, private_witnesses: 0 }.valid());
-        assert!(!CircuitStats { gates: 0, public_inputs: 1, private_witnesses: 0 }.valid());
-        assert!(!CircuitStats { gates: 1, public_inputs: 0, private_witnesses: 0 }.valid());
+        assert!(CircuitStats {
+            gates: 1,
+            public_inputs: 1,
+            private_witnesses: 0
+        }
+        .valid());
+        assert!(!CircuitStats {
+            gates: 0,
+            public_inputs: 1,
+            private_witnesses: 0
+        }
+        .valid());
+        assert!(!CircuitStats {
+            gates: 1,
+            public_inputs: 0,
+            private_witnesses: 0
+        }
+        .valid());
     }
 
     #[test]
