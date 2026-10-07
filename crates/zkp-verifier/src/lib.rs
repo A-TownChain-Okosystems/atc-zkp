@@ -23,9 +23,7 @@ pub fn verifying_key_hash(vk: &VerifyingKey<Bn254>) -> Result<[u8; 32], ProofErr
     sha256(&bytes).map_err(|_| ProofError::VerificationFailed)
 }
 
-pub fn register_equality_square(
-    vk: &VerifyingKey<Bn254>,
-) -> Result<RegisteredCircuit, ProofError> {
+pub fn register_equality_square(vk: &VerifyingKey<Bn254>) -> Result<RegisteredCircuit, ProofError> {
     let descriptor = CircuitDescriptor {
         circuit_id: CIRCUIT_ID_EQUALITY_SQUARE,
         version: CIRCUIT_VERSION_EQUALITY_SQUARE,
@@ -108,16 +106,16 @@ mod tests {
         let mut rng = test_rng();
         let (pk, vk) = setup(&mut rng).expect("setup");
         let circuit = register_equality_square(&vk).expect("registry");
-        let envelope =
-            prove_square(&pk, ark_bn254::Fr::from(7u64), ark_bn254::Fr::from(49u64), &mut rng)
-                .expect("proof");
-        assert!(verify_groth16(
-            &circuit,
-            &vk,
-            &envelope,
-            ark_bn254::Fr::from(49u64)
+        let envelope = prove_square(
+            &pk,
+            ark_bn254::Fr::from(7u64),
+            ark_bn254::Fr::from(49u64),
+            &mut rng,
         )
-        .expect("verify"));
+        .expect("proof");
+        assert!(
+            verify_groth16(&circuit, &vk, &envelope, ark_bn254::Fr::from(49u64)).expect("verify")
+        );
     }
 
     #[test]
@@ -133,12 +131,7 @@ mod tests {
             public_inputs: Vec::new(),
         };
         assert_eq!(
-            verify_groth16(
-                &circuit,
-                &vk_b,
-                &envelope,
-                ark_bn254::Fr::from(49u64)
-            ),
+            verify_groth16(&circuit, &vk_b, &envelope, ark_bn254::Fr::from(49u64)),
             Err(ProofError::VerifyingKeyMismatch)
         );
     }
@@ -148,17 +141,16 @@ mod tests {
         let mut rng = test_rng();
         let (pk, vk) = setup(&mut rng).expect("setup");
         let circuit = register_equality_square(&vk).expect("registry");
-        let envelope =
-            prove_square(&pk, ark_bn254::Fr::from(7u64), ark_bn254::Fr::from(49u64), &mut rng)
-                .expect("proof");
+        let envelope = prove_square(
+            &pk,
+            ark_bn254::Fr::from(7u64),
+            ark_bn254::Fr::from(49u64),
+            &mut rng,
+        )
+        .expect("proof");
 
         assert_eq!(
-            verify_groth16(
-                &circuit,
-                &vk,
-                &envelope,
-                ark_bn254::Fr::from(48u64)
-            ),
+            verify_groth16(&circuit, &vk, &envelope, ark_bn254::Fr::from(48u64)),
             Err(ProofError::VerificationFailed)
         );
     }

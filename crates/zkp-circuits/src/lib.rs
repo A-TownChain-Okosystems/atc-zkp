@@ -24,7 +24,11 @@ mod tests {
     #[test]
     fn quadrat_constraint() {
         // x * x == x  (fuer x in {0,1})
-        let con = Constraint { a: vec![(0, 1)], b: vec![(0, 1)], c: vec![(0, 1)] };
+        let con = Constraint {
+            a: vec![(0, 1)],
+            b: vec![(0, 1)],
+            c: vec![(0, 1)],
+        };
         assert!(satisfied(&con, &[1]));
         assert!(satisfied(&con, &[0]));
         assert!(!satisfied(&con, &[2]));

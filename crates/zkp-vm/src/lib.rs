@@ -15,7 +15,11 @@ pub struct ZkVm {
 
 impl ZkVm {
     pub fn new(program: Vec<Instruction>) -> Self {
-        ZkVm { program, constraint_count: 0, hint_count: 0 }
+        ZkVm {
+            program,
+            constraint_count: 0,
+            hint_count: 0,
+        }
     }
 
     pub fn trace(&mut self) -> (u64, u64) {
