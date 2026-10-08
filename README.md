@@ -1,6 +1,6 @@
 # ATC ZKP Layer
 
-> **ATC COMPLIANCE: R1** — auditiert am 2026-09-10 (SCR-0075; R-Level aus `.atc/repository.yaml`).
+> **Historical governance snapshot:** R1 was recorded in an audit on 2026-09-10 (SCR-0075). This historical label does not establish current implementation verification or production readiness; consult `STATUS.md` and exact-SHA evidence.
 
 
 > Zero-Knowledge Proof Layer der A-TownChain — Verifikationsschicht zwischen L1 und Anwendungen.
