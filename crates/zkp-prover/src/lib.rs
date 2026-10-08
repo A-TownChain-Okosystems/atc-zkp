@@ -101,7 +101,7 @@ pub fn verify_square(
     }
 
     let pvk = prepare_verifying_key(vk);
-    Groth16::<Bn254>::verify(&pvk, &[y], &proof).map_err(|_| ProofError::VerificationFailed)
+    Groth16::<Bn254>::verify_proof(&pvk, &proof, &[y]).map_err(|_| ProofError::VerificationFailed)
 }
 
 #[cfg(test)]
@@ -111,7 +111,7 @@ mod tests {
 
     #[test]
     fn real_groth16_round_trip_and_negative_case() {
-        let mut rng = test_rng();
+        let mut rng = StdRng::seed_from_u64(0x4154435f5a4b505f);
         let (pk, vk) = setup(&mut rng).expect("setup");
         let x = Fr::from(7u64);
         let y = x * x;
