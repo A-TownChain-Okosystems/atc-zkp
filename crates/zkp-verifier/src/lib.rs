@@ -98,12 +98,12 @@ pub fn verify_format(system_id: u8, proof_len: usize) -> bool {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use ark_std::rand::test_rng;
+    use ark_std::rand::{rngs::StdRng, SeedableRng};
     use zkp_prover::{prove_square, setup};
 
     #[test]
     fn registry_binds_verifying_key() {
-        let mut rng = test_rng();
+        let mut rng = StdRng::seed_from_u64(0x4154435f5a4b505f);
         let (pk, vk) = setup(&mut rng).expect("setup");
         let circuit = register_equality_square(&vk).expect("registry");
         let envelope = prove_square(
@@ -120,7 +120,7 @@ mod tests {
 
     #[test]
     fn registry_rejects_different_key() {
-        let mut rng = test_rng();
+        let mut rng = StdRng::seed_from_u64(0x5a4b505f4154435f);
         let (_pk_a, vk_a) = setup(&mut rng).expect("setup a");
         let (_pk_b, vk_b) = setup(&mut rng).expect("setup b");
         let circuit = register_equality_square(&vk_a).expect("registry");
@@ -138,7 +138,7 @@ mod tests {
 
     #[test]
     fn registry_rejects_public_input_mismatch() {
-        let mut rng = test_rng();
+        let mut rng = StdRng::seed_from_u64(0x505f5a4b4154435f);
         let (pk, vk) = setup(&mut rng).expect("setup");
         let circuit = register_equality_square(&vk).expect("registry");
         let envelope = prove_square(
