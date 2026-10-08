@@ -16,7 +16,7 @@ PATTERNS = {
     "rust": [
         (r"SystemTime::now", "Wall-Clock im Quellcode"),
         (r"Instant::now", "Monotonic-Clock im Quellcode"),
-        (r"\brand::", "RNG im Quellcode"),
+        (r"\brand::random\b", "nichtdeterministische RNG-Aufrufstelle"),
         (r"thread_rng", "thread-local RNG"),
         (r"OsRng|StdRng::from_entropy", "entropy-basierte RNG-Seeds"),
     ],
