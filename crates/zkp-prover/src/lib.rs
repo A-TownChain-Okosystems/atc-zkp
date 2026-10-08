@@ -110,7 +110,7 @@ pub fn verify_square(
 mod tests {
     use super::*;
     use ark_std::rand::{rngs::StdRng, SeedableRng};
-    
+
     #[test]
     fn real_groth16_round_trip_and_negative_case() {
         let mut rng = StdRng::seed_from_u64(0x4154435f5a4b505f);
