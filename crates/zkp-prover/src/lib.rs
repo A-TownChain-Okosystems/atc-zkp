@@ -109,6 +109,7 @@ pub fn verify_square(
 #[cfg(test)]
 mod tests {
     use super::*;
+    use ark_std::rand::{rngs::StdRng, SeedableRng};
     use ark_std::test_rng;
 
     #[test]
