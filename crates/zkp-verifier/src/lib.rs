@@ -11,7 +11,7 @@ pub const ACCEPTED_SYSTEM_ID: u8 = 1;
 pub const CIRCUIT_ID_EQUALITY_SQUARE: u32 = 1;
 pub const CIRCUIT_VERSION_EQUALITY_SQUARE: u32 = 1;
 
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone)]
 pub struct RegisteredCircuit {
     pub descriptor: CircuitDescriptor,
 }
@@ -61,7 +61,7 @@ pub fn verify_groth16(
     let proof = Proof::<Bn254>::deserialize_compressed(envelope.proof.as_slice())
         .map_err(|_| ProofError::VerificationFailed)?;
     let pvk = prepare_verifying_key(vk);
-    Groth16::<Bn254>::verify(&pvk, &[public_input], &proof)
+    Groth16::<Bn254>::verify_proof(&pvk, &proof, &[public_input])
         .map_err(|_| ProofError::VerificationFailed)
 }
 
