@@ -77,15 +77,22 @@ def main():
     if not args.skip_tests:
         print("== Saeule 2: Reproduzierbare Testlaeufe (2x, Byte-Vergleich) ==")
         cmd = args.test_cmd or ("cargo test --quiet" if args.lang == "rust" else "python3 -m pytest -q 2>/dev/null || python3 -m unittest discover -q")
-        rc1, out1 = run_tests(cmd, root)
-        rc2, out2 = run_tests(cmd, root)
-        if rc1 != 0 or rc2 != 0:
+        # Warm the build cache so first-build diagnostics are not confused
+        # with output from a cached run. The two evidence runs remain byte-compared.
+        warm_rc, _ = run_tests(cmd, root)
+        if warm_rc != 0:
+            ok = False
+            print(f"  FINDING: Initial test warm-up failed (rc={warm_rc}) — determinism not testable (Fail Closed)")
+        else:
+            rc1, out1 = run_tests(cmd, root)
+            rc2, out2 = run_tests(cmd, root)
+        if warm_rc == 0 and (rc1 != 0 or rc2 != 0):
             ok = False
             print(f"  FINDING: Tests schlagen fehl (rc={rc1}/{rc2}) — Determinismus nicht pruefbar (Fail Closed)")
-        elif out1 != out2:
+        elif warm_rc == 0 and out1 != out2:
             ok = False
             print("  FINDING: Testausgaben unterscheiden sich zwischen Lauf 1 und Lauf 2 — nichtdeterministisch!")
-        else:
+        elif warm_rc == 0:
             print("  OK: zwei identische Testlaeufe (Evidenz per Byte-Vergleich)")
 
     print("DETERMINISM GATE:", "PASS" if ok else "FAIL")
