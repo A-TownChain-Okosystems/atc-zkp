@@ -12,13 +12,17 @@ Dieses Repository folgt den ATC-Repository-Standards (kanonisch im
 ## Zwei-Ebenen-Entscheidungsmodell (AD-029)
 
 1. **Zentral:** docs/DECISIONS_REGISTER.md im Docs-Hub — AD-Nummern sind
+
    verbindlich und haben Vorrang (ATC-STD-000 §31: hoechste Governance-Prioritaet).
+
 2. **Lokal:** repo-spezifische Entscheidungen in docs/decisions/ (ADR-NNN-Form,
+
    ATC-STD-000 §7.2; zentrales Register behaelt die grandfathered AD-NNN-Form).
 
 ## Struktur
 
-```
+```text
+
 atc-compute/
 ├── .atc/            Metadaten (repository/ownership/lifecycle/compliance.yaml)
 ├── .github/         CI (governance-ci.yml; Produkt-Pipelines je Meilenstein)
@@ -27,7 +31,8 @@ atc-compute/
 ├── modules|src|specs|docs/  je Repo-Typ (CORE)
 ├── README.md        mit ATC-COMPLIANCE-Anhang
 ├── SECURITY.md · CHANGELOG.md · CODEOWNERS · LICENSE
-```
+
+```text
 
 ## Regeln
 
