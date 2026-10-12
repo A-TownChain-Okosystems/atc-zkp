@@ -31,7 +31,6 @@ oder eines Zustandsnachweises, ohne die zugrunde liegenden Daten offenzulegen.
 │                 A-TownChain L1                          │
 │ Consensus │ State │ Transactions │ Validators │ DA      │
 └─────────────────────────────────────────────────────────┘
-
 ```
 
 ## 2. Kernkomponenten
@@ -56,7 +55,6 @@ oder eines Zustandsnachweises, ohne die zugrunde liegenden Daten offenzulegen.
 ```text
 Alice → (private transaction) → ZKP Prover → (Proof) → A-TownChain
 A-TownChain: Verify Proof → Check Nullifier → Update State
-
 ```
 
 Das Netzwerk stellt fest: „Die Transaktion ist gueltig." — ohne offenzulegen,
@@ -94,7 +92,6 @@ ProofSystem
 ├── serialize()
 ├── deserialize()
 └── version()
-
 ```
 
 Austausch eines Proof-Systems ohne Umbau der Blockchain-Architektur.
@@ -106,7 +103,6 @@ Compute), zkApp (Private Applications). Die L1 prueft nur:
 
 ```text
 State_old + Proof → State_new
-
 ```
 
 ## 6. ZKVM (ATC-STD-ZKP-009)
@@ -114,7 +110,6 @@ State_old + Proof → State_new
 ```text
 ATCLang → ATCLang Compiler → ATC Bytecode → ZKVM
       → Execution Trace → ZKP → A-TownChain L1
-
 ```
 
 Relevant, sobald ATCLang Smart Contracts oder deterministische
@@ -132,5 +127,4 @@ ATC L1
 └── ZKP Verification
     ├── Private Transactions ├── ZK Identity
     ├── GameFi Proofs ├── zkApps └── zkRollups
-
 ```
