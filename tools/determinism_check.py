@@ -16,7 +16,8 @@ PATTERNS = {
     "rust": [
         (r"SystemTime::now", "Wall-Clock im Quellcode"),
         (r"Instant::now", "Monotonic-Clock im Quellcode"),
-        (r"\brand::", "RNG im Quellcode"),
+        # RNG traits and deterministic test RNGs are valid in cryptographic code.
+        # Reject only APIs that introduce ambient entropy or uncontrolled randomness.
         (r"thread_rng", "thread-local RNG"),
         (r"OsRng|StdRng::from_entropy", "entropy-basierte RNG-Seeds"),
     ],
