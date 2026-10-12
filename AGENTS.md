@@ -1,4 +1,13 @@
-# AI Agent Instructions — ATC ZKP Layer
+---
+document_id: ATC-DOC-ZKP-007
+title: "AI Agent Instructions"
+version: 1.0.0
+status: active
+owner: A-TownChain-Okosystems
+created: 2026-09-07
+updated: 2026-09-07
+standard: ATC-STD-MD-001
+---
 
 ## Org-Regeln (vererbt — Pflicht für jeden Agenten in diesem Repo)
 
@@ -11,17 +20,6 @@ ATC-AI-ARCH/AUDIT/SEC/CI/DOC/TEST/RELEASE/GOV-001), ai/agent.yaml.
 Repo-spezifische Regeln ERGÄNZEN die Org-Regeln; keine höhere Security-,
 Compliance- oder Governance-Regel darf stillschweigend ausgehebelt werden.
 Kaskade: Org-Policy → AGENT_MANIFEST → Org-AGENTS.md → dieses Dokument → Task.
-
----
-document_id: ATC-DOC-ZKP-007
-title: "AI Agent Instructions"
-version: 1.0.0
-status: active
-owner: A-TownChain-Okosystems
-created: 2026-09-07
-updated: 2026-09-07
-standard: ATC-STD-MD-001
----
 
 ## Identity & Standards
 
@@ -38,12 +36,14 @@ standard: ATC-STD-MD-001
 
 Agenten-Commits MUSSEN einen Trailer-Block tragen (maschinenlesbar):
 
-```
+```text
+
 Agent-ID: ATC-AI-ARCH-001
 Task-ID: ATC-TASK-NNNN
 AI-Role: software-development
 Validation: PASS|FAIL|PENDING
-```
+
+```text
 
 Conventional-Commit-Typen: feat|fix|docs|test|refactor|security|build|ci|chore|spec.
 Ohne Trailer gilt ein Commit als menschlicher Commit (Agentenarbeit wird zurueckgewiesen).
