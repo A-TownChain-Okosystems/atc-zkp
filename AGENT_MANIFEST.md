@@ -138,7 +138,7 @@ Regel: Layer startet erst nach Gate des vorherigen.
 ## Google Sheets Dashboard
 
 ID: 1xR5c24NrtYC58OsGrLaUHkQUiL_O6eYVyx8KmFcvBD4
-URL: https://docs.google.com/spreadsheets/d/1xR5c24NrtYC58OsGrLaUHkQUiL_O6eYVyx8KmFcvBD4
+URL: <https://docs.google.com/spreadsheets/d/1xR5c24NrtYC58OsGrLaUHkQUiL_O6eYVyx8KmFcvBD4>
 
 ## Notion
 
