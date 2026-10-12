@@ -8,7 +8,6 @@ created: 2026-09-07
 updated: 2026-09-07
 standard: ATC-STD-MD-001
 ---
-
 ## Org-Regeln (vererbt — Pflicht für jeden Agenten in diesem Repo)
 
 Dieses Repository unterliegt dem **ATC Org-weiten Agent-Governance-System** (SCR-0057):
@@ -37,13 +36,12 @@ Kaskade: Org-Policy → AGENT_MANIFEST → Org-AGENTS.md → dieses Dokument →
 Agenten-Commits MUSSEN einen Trailer-Block tragen (maschinenlesbar):
 
 ```text
-
 Agent-ID: ATC-AI-ARCH-001
 Task-ID: ATC-TASK-NNNN
 AI-Role: software-development
 Validation: PASS|FAIL|PENDING
 
-```text
+```
 
 Conventional-Commit-Typen: feat|fix|docs|test|refactor|security|build|ci|chore|spec.
 Ohne Trailer gilt ein Commit als menschlicher Commit (Agentenarbeit wird zurueckgewiesen).
