@@ -9,8 +9,6 @@ updated: 2026-09-07
 standard: ATC-STD-MD-001
 ---
 
-# Contributing to ATC ZKP Layer
-
 ## Guidelines
 
 1. Follow Conventional Commits format (`docs: ...`, `feat: ...`, `fix: ...`).
