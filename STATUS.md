@@ -9,8 +9,6 @@ updated: 2026-09-07
 standard: ATC-STD-MD-001
 ---
 
-# Project Status — ATC ZKP Layer
-
 | Property | Value |
 |---|---|
 | Repository | atc-zkp |
