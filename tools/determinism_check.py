@@ -2,8 +2,8 @@
 """ATC Determinism Gate — ATC-STD-ENG-001 REQ-ENG-002 (D-CRITICAL-Repos).
 
 Prüft zwei Determinismus-Säulen:
-  1. VERBOTENE QUELLEN: Wall-Clock / RNG im Quellcode (Sprachmuster je --lang)
-  2. REPRODUIERBARE TESTS: Testsuite zweimal, Byte-Vergleich der Ausgaben
+  1. VERBOTENE QUELLEN: Wall-Clock / unkontrollierte Entropie (Sprachmuster je --lang)
+  2. REPRODUIERBARE TESTS: Testsuite zweimal, Byte-Vergleich stabilisierter Ausgaben
 
 Fail-closed: Exit 0 nur wenn BEIDE Säulen grün sind (REQ-ENG-012 — Evidenz
 ist der zweimalige identische Testlauf, kein synthetischer Nachweis).
@@ -52,8 +52,17 @@ def scan_sources(root, lang):
     return findings
 
 def run_tests(cmd, cwd):
-    r = subprocess.run(cmd, shell=True, cwd=cwd, capture_output=True, text=True)
-    return (r.returncode, (r.stdout or "") + (r.stderr or ""))
+    env = os.environ.copy()
+    env["RUST_TEST_THREADS"] = "1"
+    env["CARGO_TERM_COLOR"] = "never"
+    r = subprocess.run(
+        cmd, shell=True, cwd=cwd, capture_output=True, text=True, env=env
+    )
+    output = (r.stdout or "") + (r.stderr or "")
+    # Rust's test harness prints wall-clock durations; normalize only that
+    # volatile field before the fail-closed byte comparison.
+    output = re.sub(r"finished in [0-9]+(?:\\.[0-9]+)?s", "finished in <duration>", output)
+    return (r.returncode, output)
 
 def main():
     ap = argparse.ArgumentParser()
