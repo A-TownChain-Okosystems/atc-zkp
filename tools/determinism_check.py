@@ -61,7 +61,7 @@ def run_tests(cmd, cwd):
     output = (r.stdout or "") + (r.stderr or "")
     # Rust's test harness prints wall-clock durations; normalize only that
     # volatile field before the fail-closed byte comparison.
-    output = re.sub(r"finished in [0-9]+(?:\\.[0-9]+)?s", "finished in <duration>", output)
+    output = re.sub(r"finished in [0-9]+(?:\.[0-9]+)?s", "finished in <duration>", output)
     return (r.returncode, output)
 
 def main():
