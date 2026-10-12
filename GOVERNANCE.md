@@ -9,6 +9,4 @@ updated: 2026-09-07
 standard: ATC-STD-MD-001
 ---
 
-# Governance — ATC ZKP Layer
-
 Dieses Repository folgt dem A-TownChain Enterprise Governance Framework.
