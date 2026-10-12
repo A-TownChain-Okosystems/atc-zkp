@@ -27,7 +27,6 @@ atc-compute/
 ├── modules|src|specs|docs/  je Repo-Typ (CORE)
 ├── README.md        mit ATC-COMPLIANCE-Anhang
 ├── SECURITY.md · CHANGELOG.md · CODEOWNERS · LICENSE
-
 ```
 
 ## Regeln
