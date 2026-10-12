@@ -9,6 +9,4 @@ updated: 2026-09-07
 standard: ATC-STD-MD-001
 ---
 
-# Documentation Overview — ATC ZKP Layer
-
 Willkommen in der Dokumentations-Hierarchie von atc-zkp.
