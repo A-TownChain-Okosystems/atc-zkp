@@ -2,7 +2,6 @@
 
 > **ATC COMPLIANCE: R1** — auditiert am 2026-09-10 (SCR-0075; R-Level aus `.atc/repository.yaml`).
 
-
 > Zero-Knowledge Proof Layer der A-TownChain — Verifikationsschicht zwischen L1 und Anwendungen.
 
 **Project:** atc-zkp
@@ -18,6 +17,7 @@ ATC ZKP Layer stellt die kanonische Zero-Knowledge-Proof-Infrastruktur für das 
 ## Purpose
 
 ATC ZKP Layer bietet die kanonische Implementierung der Zero-Knowledge-Proof-Systeme innerhalb des A-TownChain-Ökosystems. Es ist verantwortlich für:
+
 - On-Chain Proof Verification Engine (zkp-verifier)
 - Off-Chain Proof Generation (zkp-prover)
 - Circuit Registry & Versionierung (zkp-circuits)
@@ -62,6 +62,7 @@ dApps / Wallet / GameFi / DeFi
           │
           ▼
    A-TownChain L1 (Consensus, State, Tx)
+
 ```
 
 Pluggable Proof Architecture: **Groth16 · PLONK · Halo2 · STARK** + zukünftige Systeme — austauschbar ohne Blockchain-Umbau (ZKP-002).
@@ -86,6 +87,7 @@ atc-zkp/
 │   ├── zkp-verifier/
 │   └── zkp-vm/
 └── docs/
+
 ```
 
 ## Requirements
@@ -100,6 +102,7 @@ atc-zkp/
 git clone https://github.com/A-TownChain-Okosystems/atc-zkp.git
 cd atc-zkp
 cargo build
+
 ```
 
 ## Configuration
@@ -115,19 +118,23 @@ use zkp_core::ProofSystem;
 fn main() {
     println!("ATC ZKP Layer Initialized");
 }
+
 ```
 
 ## Development
 
 ```bash
 cargo build --all-targets
+
 ```
 
 ## Testing
 
 ```bash
 cargo test
+
 ```
+
 Erwartetes Ergebnis: `PASS` (alle Unit- und Integrationstests erfolgreich).
 
 ## Security
