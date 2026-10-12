@@ -62,7 +62,6 @@ dApps / Wallet / GameFi / DeFi
           │
           ▼
    A-TownChain L1 (Consensus, State, Tx)
-
 ```
 
 Pluggable Proof Architecture: **Groth16 · PLONK · Halo2 · STARK** + zukünftige Systeme — austauschbar ohne Blockchain-Umbau (ZKP-002).
@@ -87,7 +86,6 @@ atc-zkp/
 │   ├── zkp-verifier/
 │   └── zkp-vm/
 └── docs/
-
 ```
 
 ## Requirements
@@ -102,7 +100,6 @@ atc-zkp/
 git clone https://github.com/A-TownChain-Okosystems/atc-zkp.git
 cd atc-zkp
 cargo build
-
 ```
 
 ## Configuration
@@ -118,21 +115,18 @@ use zkp_core::ProofSystem;
 fn main() {
     println!("ATC ZKP Layer Initialized");
 }
-
 ```
 
 ## Development
 
 ```bash
 cargo build --all-targets
-
 ```
 
 ## Testing
 
 ```bash
 cargo test
-
 ```
 
 Erwartetes Ergebnis: `PASS` (alle Unit- und Integrationstests erfolgreich).
