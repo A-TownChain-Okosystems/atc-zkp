@@ -9,8 +9,6 @@ updated: 2026-09-07
 standard: ATC-STD-MD-001
 ---
 
-# Technical Architecture — ATC ZKP Layer
-
 ## Overview
 
 Die ZKP Layer bildet die kryptografische Verifikationsinfrastruktur der A-TownChain.
@@ -18,13 +16,19 @@ Die ZKP Layer bildet die kryptografische Verifikationsinfrastruktur der A-TownCh
 ## Components
 
 | Component | Purpose | Required |
+
 |---|---|---|
+
 | `zkp-core` | Core traits and types | Yes |
+
 | `zkp-verifier` | Verification engine | Yes |
+
 | `zkp-prover` | Off-chain prover | Yes |
 
 ## Data Flow
 
 ```text
+
 Tx Data -> Circuit Execution -> Proof Generation -> On-Chain Verification
-```
+
+```text
