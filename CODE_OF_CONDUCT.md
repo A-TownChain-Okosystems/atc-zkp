@@ -9,6 +9,4 @@ updated: 2026-09-07
 standard: ATC-STD-MD-001
 ---
 
-# Code of Conduct — ATC ZKP Layer
-
 Es gilt der A-TownChain Community Code of Conduct.
