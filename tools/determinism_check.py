@@ -56,8 +56,8 @@ def normalize_test_output(output):
     # expected to vary between otherwise identical test runs and is not test
     # evidence; normalize only that summary field, preserving all other bytes.
     return re.sub(
-        r"(?m)^(test result: .* finished in )\\d+(?:\\.\\d+)?s$",
-        r"\\1<TIME>s",
+        r"(?m)^(test result: .* finished in )\d+(?:\\.\\d+)?s$",
+        r"\1<TIME>s",
         output,
     )
 
