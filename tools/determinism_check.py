@@ -3,7 +3,8 @@
 
 Prüft zwei Determinismus-Säulen:
   1. VERBOTENE QUELLEN: Wall-Clock / RNG im Quellcode (Sprachmuster je --lang)
-  2. REPRODUIERBARE TESTS: Testsuite zweimal, Byte-Vergleich der Ausgaben
+  2. REPRODUIERBARE TESTS: Testsuite zweimal, Vergleich nach Normalisierung
+     variabler Cargo-Laufzeitfelder
 
 Fail-closed: Exit 0 nur wenn BEIDE Säulen grün sind (REQ-ENG-012 — Evidenz
 ist der zweimalige identische Testlauf, kein synthetischer Nachweis).
@@ -50,9 +51,20 @@ def scan_sources(root, lang):
                 continue
     return findings
 
+def normalize_test_output(output):
+    # Cargo reports wall-clock duration in each summary. This measurement is
+    # expected to vary between otherwise identical test runs and is not test
+    # evidence; normalize only that summary field, preserving all other bytes.
+    return re.sub(
+        r"(?m)^(test result: .* finished in )\\d+(?:\\.\\d+)?s$",
+        r"\\1<TIME>s",
+        output,
+    )
+
 def run_tests(cmd, cwd):
     r = subprocess.run(cmd, shell=True, cwd=cwd, capture_output=True, text=True)
-    return (r.returncode, (r.stdout or "") + (r.stderr or ""))
+    output = (r.stdout or "") + (r.stderr or "")
+    return (r.returncode, normalize_test_output(output))
 
 def main():
     ap = argparse.ArgumentParser()
