@@ -3,14 +3,15 @@
 
 Prüft zwei Determinismus-Säulen:
   1. VERBOTENE QUELLEN: Wall-Clock / RNG im Quellcode (Sprachmuster je --lang)
-  2. REPRODUIERBARE TESTS: Testsuite zweimal, Byte-Vergleich der Ausgaben
+  2. REPRODUIERBARE TESTS: Testsuite zweimal, Vergleich nach Normalisierung
+     variabler Cargo-Laufzeitfelder
 
 Fail-closed: Exit 0 nur wenn BEIDE Säulen grün sind (REQ-ENG-012 — Evidenz
 ist der zweimalige identische Testlauf, kein synthetischer Nachweis).
 
 Aufruf: python3 tools/determinism_check.py --lang rust|python [--test-cmd "..."]
 """
-import argparse, os, re, subprocess, sys
+import argparse, difflib, os, re, subprocess, sys
 
 PATTERNS = {
     "rust": [
@@ -50,9 +51,20 @@ def scan_sources(root, lang):
                 continue
     return findings
 
+def normalize_test_output(output):
+    # Cargo reports wall-clock duration in each summary. This measurement is
+    # expected to vary between otherwise identical test runs and is not test
+    # evidence; normalize only that summary field, preserving all other bytes.
+    return re.sub(
+        r"(?m)^(test result: .* finished in )\d+(?:\.\d+)?s$",
+        r"\1<TIME>s",
+        output,
+    )
+
 def run_tests(cmd, cwd):
     r = subprocess.run(cmd, shell=True, cwd=cwd, capture_output=True, text=True)
-    return (r.returncode, (r.stdout or "") + (r.stderr or ""))
+    output = (r.stdout or "") + (r.stderr or "")
+    return (r.returncode, normalize_test_output(output))
 
 def main():
     ap = argparse.ArgumentParser()
@@ -89,9 +101,30 @@ def main():
         if warm_rc == 0 and (rc1 != 0 or rc2 != 0):
             ok = False
             print(f"  FINDING: Tests schlagen fehl (rc={rc1}/{rc2}) — Determinismus nicht pruefbar (Fail Closed)")
-        elif warm_rc == 0 and out1 != out2:
+            if rc1 != 0:
+                print("  --- Lauf 1 Ausgabe (erste 200 Zeilen) ---")
+                print("\n".join(out1.splitlines()[:200]))
+            if rc2 != 0:
+                print("  --- Lauf 2 Ausgabe (erste 200 Zeilen) ---")
+                print("\n".join(out2.splitlines()[:200]))
+        elif warm_rc == 0 and (rc1 != rc2 or out1 != out2):
             ok = False
             print("  FINDING: Testausgaben unterscheiden sich zwischen Lauf 1 und Lauf 2 — nichtdeterministisch!")
+            diff = difflib.unified_diff(
+                out1.splitlines(keepends=True),
+                out2.splitlines(keepends=True),
+                fromfile="test-run-1",
+                tofile="test-run-2",
+                n=3,
+            )
+            print("  --- Erste 200 Zeilen des Unified Diff (Lauf 1 -> Lauf 2) ---")
+            for i, line in enumerate(diff):
+                if i >= 200:
+                    print("  ... Diff gekuerzt; insgesamt mehr als 200 Zeilen.")
+                    break
+                print(line, end="" if line.endswith("\n") else "\n")
+            if rc1 != rc2:
+                print(f"  Exitcodes unterscheiden sich: Lauf 1={rc1}, Lauf 2={rc2}")
         elif warm_rc == 0:
             print("  OK: zwei identische Testlaeufe (Evidenz per Byte-Vergleich)")
 
