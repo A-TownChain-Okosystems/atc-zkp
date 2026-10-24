@@ -6,4 +6,4 @@ license = "Apache-2.0"
 description = "zkp-crypto — bounded cryptographic primitives for the ATC ZKP boundary"
 
 [dependencies]
-sha2 = "0.10"
+sha2 = "0.11"
